@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ScbwiSummer2016.Models;
 
 namespace ScbwiSummer2016
 {
@@ -35,6 +36,9 @@ namespace ScbwiSummer2016
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
+
+            services.AddEntityFrameworkSqlite()
+                .AddDbContext<ScbwiContext>();
 
             services.AddMvc();
         }

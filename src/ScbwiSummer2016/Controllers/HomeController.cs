@@ -3,33 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ScbwiSummer2016.Models;
 
 namespace ScbwiSummer2016.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private ScbwiContext db;
+
+        public HomeController(ScbwiContext db)
         {
-            return View();
+            this.db = db;
         }
 
-        public IActionResult About()
+        public IActionResult Index() => View();
+        public IActionResult Locations() => Json(db.locations.ToList());
+        
+        [HttpPost]
+        public IActionResult Submit([FromBody] RegisterViewModel r)
         {
-            ViewData["Message"] = "Your application description page.";
+            var total = 0;
 
-            return View();
-        }
+            if (r.member)
+            {
+                total = 75;
+            }
+            else
+            {
+                total = 100;
+            }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+            var usedcode = false;
+            if (r.codeused != null)
+            {
+                if (r.codeused.ToLower() == "i am asking nicely")
+                {
+                    total = 0;
+                    usedcode = true;
+                }
+                else if (r.codeused.ToLower() == "yes i know the muffin man")
+                {
+                    total = total / 2;
+                    usedcode = true;
+                }
+            }
 
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View();
+            return Json(new {
+                total = total,
+                usedcode = usedcode
+            });
         }
     }
 }
