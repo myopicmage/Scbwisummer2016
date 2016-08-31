@@ -20,20 +20,29 @@ namespace ScbwiSummer2016.Controllers
         public IActionResult Locations() => Json(db.locations.ToList());
         
         [HttpPost]
-        public IActionResult Submit([FromBody] RegisterViewModel r)
+        public IActionResult Calculate([FromBody] RegisterViewModel r)
+        {
+            return Json(GenTotal(r));
+        }
+
+        private TotalResult GenTotal(RegisterViewModel r)
         {
             var total = 0;
+            var subtotal = 0;
 
             if (r.member)
             {
                 total = 75;
+                subtotal = 75;
             }
             else
             {
                 total = 100;
+                subtotal = 75;
             }
 
             var usedcode = false;
+
             if (r.codeused != null)
             {
                 if (r.codeused.ToLower() == "i am asking nicely")
@@ -48,10 +57,19 @@ namespace ScbwiSummer2016.Controllers
                 }
             }
 
-            return Json(new {
+            return new TotalResult
+            {
                 total = total,
-                usedcode = usedcode
-            });
+                usedcode = usedcode,
+                subtotal = subtotal
+            };
+        }
+
+        class TotalResult
+        {
+            public decimal total { get; set; }
+            public decimal subtotal { get; set; }
+            public bool usedcode { get; set; }
         }
     }
 }
