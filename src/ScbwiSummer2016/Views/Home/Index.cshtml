@@ -86,17 +86,21 @@
                 <hr />
                 <div class="form-group">
                     <div ng-show="main.step1">
-                        <button ng-click="main.submit();">Calculate Total</button>
+                        <button class="btn btn-primary" ng-click="main.submit();">Calculate Total</button>
                     </div>
                     <div ng-show="main.step2">
                         <p>
                             <span ng-if="main.model.usedcode">Your code was valid!</span><br />
                             Your total is: ${{main.model.total}}.
                         </p>
+                        <p>
+                            <button class="btn btn-primary" ng-click="main.toPaypal();">Verify</button><br />
+                        </p>
                     </div>
                 </div>
             </form>
             <div ng-show="main.step3">
+                Payment is through PayPal. You will be redirected when you click continue.
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                     <input type="hidden" name="cmd" value="_xclick" />
                     <input type="hidden" name="business" value="linda@scbwiflorida.com" />
@@ -104,7 +108,7 @@
                     <input type="hidden" name="currency_code" value="USD" />
                     <input type="hidden" name="custom" value="{{main.model.paypalid}}" />
                     <input type="hidden" name="amount" value="{{main.model.total}}" />
-                    <input type="submit" name="submit" value="Continue" />
+                    <input type="submit" name="submit" value="Continue" class="btn btn-primary" />
                 </form>
             </div>
         </div>
