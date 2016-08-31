@@ -96,6 +96,17 @@
                     </div>
                 </div>
             </form>
+            <div ng-show="main.step3">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick" />
+                    <input type="hidden" name="business" value="linda@scbwiflorida.com" />
+                    <input type="hidden" name="item_name" value="SCBWI Florida Summer Bootcamp" />
+                    <input type="hidden" name="currency_code" value="USD" />
+                    <input type="hidden" name="custom" value="{{main.model.paypalid}}" />
+                    <input type="hidden" name="amount" value="{{main.model.total}}" />
+                    <input type="submit" name="submit" value="Continue" />
+                </form>
+            </div>
         </div>
     </div>
 </section>

@@ -25,6 +25,42 @@ namespace ScbwiSummer2016.Controllers
             return Json(GenTotal(r));
         }
 
+        [HttpPost]
+        public IActionResult Submit([FromBody] RegisterViewModel r)
+        {
+            var totals = GenTotal(r);
+
+            var registration = new Registration
+            {
+                address1 = r.address1,
+                address2 = r.address2,
+                firstname = r.firstname,
+                lastname = r.lastname,
+                city = r.city,
+                state = r.state,
+                codeused = r.codeused,
+                email = r.email,
+                location = db.locations.SingleOrDefault(x => x.id == r.locationid),
+                member = r.member,
+                phone = r.phone,
+                total = totals.total,
+                subtotal = totals.subtotal,
+                zip = r.zip,
+                cleared = new DateTime(2000, 1, 1),
+                paid = new DateTime(2000, 1, 1),
+                created = DateTime.Now,
+            };
+
+            db.registrations.Add(registration);
+            db.SaveChanges();
+
+            return Json(new
+            {
+                total = totals.total,
+                paypalid = registration.PayPalId,
+            });
+        }
+
         private TotalResult GenTotal(RegisterViewModel r)
         {
             var total = 0;
@@ -57,12 +93,7 @@ namespace ScbwiSummer2016.Controllers
                 }
             }
 
-            return new TotalResult
-            {
-                total = total,
-                usedcode = usedcode,
-                subtotal = subtotal
-            };
+            return new TotalResult(total, subtotal, usedcode);
         }
 
         class TotalResult
@@ -70,6 +101,15 @@ namespace ScbwiSummer2016.Controllers
             public decimal total { get; set; }
             public decimal subtotal { get; set; }
             public bool usedcode { get; set; }
+
+            public TotalResult() { }
+
+            public TotalResult(decimal total, decimal subtotal, bool usedcode)
+            {
+                this.total = total;
+                this.subtotal = subtotal;
+                this.usedcode = usedcode;
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ app.controller("ScbwiController", function ($http) {
 
     self.step1 = true;
     self.step2 = false;
+    self.step3 = false;
 
     self.locations = [];
 
@@ -20,11 +21,9 @@ app.controller("ScbwiController", function ($http) {
             r: self.model
         };
 
-        console.log(tosend);
-
         $http({
             method: 'post',
-            url: '/home/submit',
+            url: '/home/calculate',
             data: JSON.stringify(self.model)
         })
         .then(function (data, status, headers, config) {
@@ -32,6 +31,26 @@ app.controller("ScbwiController", function ($http) {
             self.model.usedcode = data.data.usedcode;
             self.step1 = false;
             self.step2 = true;
+        }, function (data, status, headers, config) {
+            console.log(data);
+        });
+    }
+
+    self.toPaypal = function () {
+        var tosend = {
+            r: self.model
+        };
+
+        $http({
+            method: 'post',
+            url: '/home/submit',
+            data: JSON.stringify(self.model)
+        })
+        .then(function (data, status, headers, config) {
+            self.step3 = true;
+            self.model.total = data.data.total;
+            self.model.paypalid = data.data.paypalid;
+
         }, function (data, status, headers, config) {
             console.log(data);
         });

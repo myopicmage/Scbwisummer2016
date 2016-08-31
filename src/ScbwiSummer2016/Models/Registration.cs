@@ -28,5 +28,7 @@ namespace ScbwiSummer2016.Models
         public DateTime created { get; set; }
         public DateTime paid { get; set; }
         public DateTime cleared { get; set; }
+
+        public string PayPalId => $"{firstname}{lastname}{email}";
     }
 }
