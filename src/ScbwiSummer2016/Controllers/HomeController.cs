@@ -56,7 +56,7 @@ namespace ScbwiSummer2016.Controllers
 
             return Json(new
             {
-                total = totals.total,
+                totals.total,
                 paypalid = registration.PayPalId,
             });
         }
