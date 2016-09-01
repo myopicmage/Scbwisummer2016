@@ -56,7 +56,7 @@ namespace ScbwiSummer2016.Migrations
 
                     b.Property<string>("lastname");
 
-                    b.Property<int?>("locationid");
+                    b.Property<int>("locationid");
 
                     b.Property<bool>("member");
 
@@ -83,7 +83,8 @@ namespace ScbwiSummer2016.Migrations
                 {
                     b.HasOne("ScbwiSummer2016.Models.Location", "location")
                         .WithMany()
-                        .HasForeignKey("locationid");
+                        .HasForeignKey("locationid")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

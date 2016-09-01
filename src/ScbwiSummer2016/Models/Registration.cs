@@ -21,7 +21,6 @@ namespace ScbwiSummer2016.Models
 
         public bool member { get; set; }
         public virtual Location location { get; set; }
-        public int locationid { get; set; }
         public string codeused { get; set; }
         public decimal total { get; set; }
         public decimal subtotal { get; set; }

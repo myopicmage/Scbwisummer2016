@@ -20,10 +20,7 @@ namespace ScbwiSummer2016.Controllers
         public IActionResult Locations() => Json(db.locations.ToList());
         
         [HttpPost]
-        public IActionResult Calculate([FromBody] RegisterViewModel r)
-        {
-            return Json(GenTotal(r));
-        }
+        public IActionResult Calculate([FromBody] RegisterViewModel r) => Json(GenTotal(r));
 
         [HttpPost]
         public IActionResult Submit([FromBody] RegisterViewModel r)
@@ -101,8 +98,6 @@ namespace ScbwiSummer2016.Controllers
             public decimal total { get; set; }
             public decimal subtotal { get; set; }
             public bool usedcode { get; set; }
-
-            public TotalResult() { }
 
             public TotalResult(decimal total, decimal subtotal, bool usedcode)
             {
